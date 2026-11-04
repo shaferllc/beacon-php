@@ -27,8 +27,8 @@ final class CurlTransport implements Transport
                 return strlen($line);
             },
         ]);
-        if ($body !== null) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        if ($body !== null || ! in_array($method, ['GET', 'HEAD'], true)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body ?? ''); // a bodyless POST still sends Content-Length: 0
         }
 
         $result = curl_exec($ch);

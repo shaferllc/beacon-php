@@ -59,9 +59,13 @@ final class CurlTransportTest extends TestCase
         }
     }
 
-    public function test_head_heartbeat(): void
+    public function test_heartbeats(): void
     {
         Beacon::ping('hb', 'http://127.0.0.1:'.self::$port, 'HEAD');
-        $this->addToAssertionCount(1);
+
+        // A bodyless POST must still send Content-Length: 0 (some proxies answer 411 otherwise).
+        $echo = (new Beacon('t', 'http://127.0.0.1:'.self::$port))->request('POST', '/heartbeat/hb');
+        $this->assertSame('POST', $echo['method']);
+        $this->assertSame('0', $echo['content_length']);
     }
 }

@@ -15,5 +15,6 @@ echo json_encode([
     'method' => $_SERVER['REQUEST_METHOD'],
     'uri' => $_SERVER['REQUEST_URI'],
     'authorization' => $_SERVER['HTTP_AUTHORIZATION'] ?? null,
+    'content_length' => $_SERVER['CONTENT_LENGTH'] ?? null,
     'body' => json_decode(file_get_contents('php://input'), true),
 ]);
