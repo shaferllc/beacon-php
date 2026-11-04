@@ -8,17 +8,15 @@ PHP 8.2+ client for [Beacon](https://usebeacon.pro) status pages: the full REST 
 
 Using Laravel? See [`beacon-status/laravel`](../laravel) for the service provider, facade, artisan command, scheduler macro and webhook middleware.
 
-> **Not yet published to Packagist.** Until it is, install from GitHub with a Composer `path` (local clone) or `vcs` repository:
+> **Not yet published to Packagist.** Until it is, install from GitHub with a Composer `vcs` repository (or a `path` repository pointing at a local clone):
 >
 > ```jsonc
-> // composer.json — path repository (after cloning https://github.com/shaferllc/beacon)
+> // composer.json
 > "repositories": [
->     { "type": "path", "url": "../beacon/sdks/php", "options": { "symlink": false } }
+>     { "type": "vcs", "url": "https://github.com/shaferllc/beacon-php" }
 > ],
-> "require": { "beacon-status/beacon-php": "@dev" }
+> "require": { "beacon-status/beacon-php": "^1.0" }
 > ```
->
-> A `vcs` repository needs `composer.json` at the repository root, so it only works once the package is split into its own repo.
 
 ## Setup
 
