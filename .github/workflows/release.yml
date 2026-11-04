@@ -1,0 +1,39 @@
+# Tests and announces beacon-status/beacon-php to Packagist when a v* tag is pushed.
+#
+# Packagist reads composer.json from the repository root, so sdks/php must live in its own
+# repository (split it with the monorepo's .github/workflows/split-packages.yml). GitHub only
+# runs workflows from the repository root, so this file is inert inside the monorepo.
+#
+# Packagist normally updates itself through the GitHub app/webhook once the package is
+# submitted at https://packagist.org/packages/submit; the last step is a belt-and-braces ping.
+# Required secrets (not configured yet): PACKAGIST_USERNAME, PACKAGIST_TOKEN.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: curl, json
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/phpunit
+      - name: GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Notify Packagist
+        run: |
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_TOKEN }}" \
+            -d "{\"repository\":{\"url\":\"https://github.com/${GITHUB_REPOSITORY}\"}}"

@@ -1,0 +1,36 @@
+{
+    "name": "beacon-status/beacon-php",
+    "description": "PHP client for the Beacon status page API: REST v1, incident ingest, heartbeats and webhook signature verification.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["beacon", "status-page", "incidents", "uptime", "heartbeat", "webhooks"],
+    "homepage": "https://usebeacon.pro/docs/sdk-laravel",
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0|^12.0"
+    },
+    "suggest": {
+        "psr/http-client-implementation": "Pass any PSR-18 client (e.g. Guzzle) via Beacon\\Transport\\Psr18Transport instead of ext-curl."
+    },
+    "autoload": {
+        "psr-4": {
+            "Beacon\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Beacon\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
